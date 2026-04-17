@@ -304,6 +304,17 @@ export default function SorteadorPage() {
       )}
 
       </div>
+      <footer className="mt-10 text-xs text-gray-500 no-print">
+        Made by{' '}
+        <a
+          href="https://www.linkedin.com/in/maycon-carlete/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#e85d75] underline hover:text-[#c64760] transition-colors"
+        >
+          Maycon
+        </a>
+      </footer>
     </main>
   );
 }
