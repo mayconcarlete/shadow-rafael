@@ -257,24 +257,24 @@ export default function SorteadorPage() {
         <div className="w-full">
           <p className="mb-3 text-sm text-gray-500">{players.length} jogadores carregados</p>
           <div className="overflow-x-auto flex justify-center">
-            <table className="border-collapse text-sm w-auto mx-auto text-[#11214a] shadow-sm">
+            <table className="border-collapse text-sm w-auto mx-auto text-gray-500 shadow-sm opacity-80">
               <thead>
-                <tr className="bg-gray-300">
-                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">#</th>
-                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Nome</th>
-                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Time</th>
-                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Modalidade</th>
-                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Anos</th>
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-200 px-3 py-2 text-left font-medium">#</th>
+                  <th className="border border-gray-200 px-3 py-2 text-left font-medium">Nome</th>
+                  <th className="border border-gray-200 px-3 py-2 text-left font-medium">Time</th>
+                  <th className="border border-gray-200 px-3 py-2 text-left font-medium">Modalidade</th>
+                  <th className="border border-gray-200 px-3 py-2 text-left font-medium">Anos</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map((p, i) => (
-                  <tr key={i} className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-gray-200 transition-colors`}>
-                    <td className="border border-gray-300 px-3 py-1">{i + 1}</td>
-                    <td className="border border-gray-300 px-3 py-1">{p.firstName} {p.lastName}</td>
-                    <td className="border border-gray-300 px-3 py-1">{p.team}</td>
-                    <td className="border border-gray-300 px-3 py-1">{p.modality}</td>
-                    <td className="border border-gray-300 px-3 py-1">{p.yearsPlaying}</td>
+                  <tr key={i} className={`${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-gray-100 transition-colors`}>
+                    <td className="border border-gray-200 px-3 py-1">{i + 1}</td>
+                    <td className="border border-gray-200 px-3 py-1">{p.firstName} {p.lastName}</td>
+                    <td className="border border-gray-200 px-3 py-1">{p.team}</td>
+                    <td className="border border-gray-200 px-3 py-1">{p.modality}</td>
+                    <td className="border border-gray-200 px-3 py-1">{p.yearsPlaying}</td>
                   </tr>
                 ))}
               </tbody>
