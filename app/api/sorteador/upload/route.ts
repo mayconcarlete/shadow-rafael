@@ -8,10 +8,24 @@ interface Player {
   yearsPlaying: string;
 }
 
+function detectDelimiter(line: string): string {
+  if (line.includes('\t')) return '\t';
+  if (line.includes(';')) return ';';
+  return ',';
+}
+
+function unquote(cell: string): string {
+  const trimmed = cell.trim();
+  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    return trimmed.slice(1, -1).replace(/""/g, '"');
+  }
+  return trimmed;
+}
+
 function parseCSV(text: string): Player[] {
   const lines = text.trim().split('\n');
-  const delimiter = lines[0].includes('\t') ? '\t' : ',';
-  const headers = lines[0].split(delimiter).map((h) => h.trim());
+  const delimiter = detectDelimiter(lines[0]);
+  const headers = lines[0].split(delimiter).map(unquote);
 
   const idx = {
     firstName: headers.indexOf('Guest first name'),
@@ -22,7 +36,7 @@ function parseCSV(text: string): Player[] {
   };
 
   return lines.slice(1).map((line) => {
-    const cols = line.split(delimiter).map((c) => c.trim());
+    const cols = line.split(delimiter).map(unquote);
     return {
       firstName: cols[idx.firstName] ?? '',
       lastName: cols[idx.lastName] ?? '',

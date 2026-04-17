@@ -38,8 +38,9 @@ export default function SorteadorPage() {
       ['Lucas', 'Pereira', 'Falcons', 'Support (400fps/1.52J)', '5'],
       ['Bruno', 'Santos', 'Sem time', 'DMR (450fps/1.92J)', '2'],
     ];
-    const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const escape = (cell: string) => `"${cell.replace(/"/g, '""')}"`;
+    const csv = [headers, ...rows].map((r) => r.map(escape).join(';')).join('\r\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
