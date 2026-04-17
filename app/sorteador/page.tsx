@@ -33,10 +33,11 @@ export default function SorteadorPage() {
   function handleDownloadExample() {
     const headers = ['Guest first name', 'Guest last name', 'Equipe Atual', 'Modalidade', 'Joga a quantos anos?'];
     const rows = [
-      ['Rafael', 'Rios', 'Shadow', 'Sniper (550fps/2.81J)', '11'],
-      ['Monclar', 'Carvalho', 'Equipe GTM', 'Assault (400fps/1.52J)', '3'],
-      ['Lucas', 'Pereira', 'Falcons', 'Support (400fps/1.52J)', '5'],
-      ['Bruno', 'Santos', 'Sem time', 'DMR (450fps/1.92J)', '2'],
+      ['Rafael', 'Silva', 'Equipe 1', 'Sniper (550fps/2.81J)', '11'],
+      ['Maycon', 'Carlete', 'Equipe 2', 'Assault (400fps/1.52J)', '3'],
+      ['Vinicius', 'Lopes', 'Equipe 3', 'Support (400fps/1.52J)', '5'],
+      ['Lael', 'Rios', 'Equipe 4', 'DMR (450fps/1.92J)', '2'],
+      ['Marcos Daniel', 'de Aguiar', 'Equipe 5', 'Assault (400fps/1.52J)', '7'],
     ];
     const escape = (cell: string) => `"${cell.replace(/"/g, '""')}"`;
     const csv = [headers, ...rows].map((r) => r.map(escape).join(';')).join('\r\n');
