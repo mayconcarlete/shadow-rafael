@@ -108,27 +108,41 @@ export default function SorteadorPage() {
         width={512}
         height={160}
         priority
-        className="mb-6 h-auto w-full max-w-md"
+        className="mb-4 h-auto w-full max-w-md"
       />
+
+      <div className="mb-8 flex flex-col items-center gap-2 text-[#11214a]">
+        <Image
+          src="/rsr.png"
+          alt="Rafael"
+          width={144}
+          height={144}
+          className="rounded-full border-4 border-[#e85d75] shadow-md object-cover w-36 h-36"
+        />
+        <span className="text-sm font-medium">Idealizado por Rafael</span>
+      </div>
 
       {/* Upload */}
       <div className="mb-4">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="text-lg font-medium">Upload CSV</span>
+        <span className="block text-xl font-medium mb-2">Importe sua Planilha</span>
+        <div className="flex items-center gap-3">
+          <label className="inline-block bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded px-4 py-2 cursor-pointer hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] transition-colors text-center font-medium">
+            Importar Planilha
+            <input
+              type="file"
+              accept=".csv"
+              onChange={handleUpload}
+              className="hidden"
+            />
+          </label>
           <button
             type="button"
             onClick={handleDownloadExample}
-            className="px-3 py-1 text-sm bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] transition-colors"
+            className="px-4 py-2 bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded font-medium hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] transition-colors"
           >
-            Exemplo
+            Baixe planilha de Modelo
           </button>
         </div>
-        <input
-          type="file"
-          accept=".csv"
-          onChange={handleUpload}
-          className="block bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded px-3 py-2 cursor-pointer hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] transition-colors"
-        />
       </div>
 
       {loading && <p className="text-gray-500">Parsing...</p>}
@@ -137,7 +151,7 @@ export default function SorteadorPage() {
       {/* Draw method */}
       {players && (
         <div className="mt-8 mb-6">
-          <p className="mb-3 text-lg font-medium">Método de sorteio</p>
+          <p className="mb-3 text-xl font-medium">Método de sorteio</p>
           <div className="flex gap-3">
             {(['times', 'aleatorio'] as DrawMethod[]).map((method) => (
               <button
@@ -159,7 +173,7 @@ export default function SorteadorPage() {
       {/* Group order — only relevant for Times method */}
       {players && drawMethod === 'times' && (
         <div className="mb-6">
-          <p className="mb-3 text-lg font-medium">Ordem dos grupos</p>
+          <p className="mb-3 text-xl font-medium">Ordem dos grupos</p>
           <div className="flex gap-3">
             {(['maiores', 'menores'] as GroupOrder[]).map((order) => (
               <button
@@ -181,7 +195,7 @@ export default function SorteadorPage() {
       {/* Team count */}
       {players && (
         <div className="mb-6">
-          <label className="block mb-2 text-lg font-medium">Quantidade de times</label>
+          <label className="block mb-2 text-xl font-medium">Quantidade de times</label>
           <input
             type="text"
             inputMode="numeric"
@@ -217,7 +231,7 @@ export default function SorteadorPage() {
       {result && (
         <div className="mb-10">
           <div id="print-area">
-            <h2 className="text-2xl font-bold mb-4">Resultado</h2>
+            <h2 className="text-3xl font-bold mb-4">Resultado</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-16 w-full">
               {result.map((team) => (
                 <div key={team.name} className="min-w-0 w-full">
@@ -282,6 +296,7 @@ export default function SorteadorPage() {
           </div>
         </div>
       )}
+
       </div>
     </main>
   );
