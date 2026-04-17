@@ -82,16 +82,16 @@ export default function SorteadorPage() {
 
   return (
     <main className="min-h-screen p-10 font-mono">
-      <h1 className="text-2xl font-bold mb-6">Sorteador</h1>
+      <h1 className="text-4xl font-bold mb-6">Sorteador Airsoft ES</h1>
 
       {/* Upload */}
       <label className="block mb-4">
-        <span className="block mb-2 text-sm font-medium">Upload CSV</span>
+        <span className="block mb-2 text-lg font-medium">Upload CSV</span>
         <input
           type="file"
           accept=".csv"
           onChange={handleUpload}
-          className="block border border-gray-400 rounded px-3 py-2 cursor-pointer"
+          className="block bg-[#f5b8c4]/30 border border-[#e85d75]/50 text-[#11214a] rounded px-3 py-2 cursor-pointer"
         />
       </label>
 
@@ -101,7 +101,7 @@ export default function SorteadorPage() {
       {/* Draw method */}
       {players && (
         <div className="mt-8 mb-6">
-          <p className="mb-3 text-sm font-medium">Método de sorteio</p>
+          <p className="mb-3 text-lg font-medium">Método de sorteio</p>
           <div className="flex gap-3">
             {(['times', 'aleatorio'] as DrawMethod[]).map((method) => (
               <button
@@ -109,11 +109,11 @@ export default function SorteadorPage() {
                 onClick={() => { setDrawMethod(method); setResult(null); }}
                 className={`px-6 py-2 rounded border-2 font-medium capitalize transition-colors ${
                   drawMethod === method
-                    ? 'bg-blue-600 text-white border-blue-700 ring-2 ring-blue-300 shadow'
-                    : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 hover:border-gray-500'
+                    ? 'bg-[#e85d75] text-white border-[#c64760] ring-2 ring-[#11214a]/30 shadow'
+                    : 'bg-white text-[#11214a] border-[#e85d75]/50 hover:bg-[#f5b8c4]/30 hover:border-[#e85d75]'
                 }`}
               >
-                {method === 'times' ? 'Times' : 'Aleatório'}
+                {method === 'times' ? 'Equipes Juntas' : 'Aleatório'}
               </button>
             ))}
           </div>
@@ -123,7 +123,7 @@ export default function SorteadorPage() {
       {/* Group order — only relevant for Times method */}
       {players && drawMethod === 'times' && (
         <div className="mb-6">
-          <p className="mb-3 text-sm font-medium">Ordem dos grupos</p>
+          <p className="mb-3 text-lg font-medium">Ordem dos grupos</p>
           <div className="flex gap-3">
             {(['maiores', 'menores'] as GroupOrder[]).map((order) => (
               <button
@@ -131,11 +131,11 @@ export default function SorteadorPage() {
                 onClick={() => { setGroupOrder(order); setResult(null); }}
                 className={`px-6 py-2 rounded border-2 font-medium transition-colors ${
                   groupOrder === order
-                    ? 'bg-blue-600 text-white border-blue-700 ring-2 ring-blue-300 shadow'
-                    : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 hover:border-gray-500'
+                    ? 'bg-[#e85d75] text-white border-[#c64760] ring-2 ring-[#11214a]/30 shadow'
+                    : 'bg-white text-[#11214a] border-[#e85d75]/50 hover:bg-[#f5b8c4]/30 hover:border-[#e85d75]'
                 }`}
               >
-                {order === 'maiores' ? 'Maiores primeiro' : 'Menores primeiro'}
+                {order === 'maiores' ? 'Equipes Maiores Primeiro' : 'Equipes Menores Primeiro'}
               </button>
             ))}
           </div>
@@ -145,13 +145,13 @@ export default function SorteadorPage() {
       {/* Team count */}
       {players && (
         <div className="mb-6">
-          <label className="block mb-2 text-sm font-medium">Quantidade de times</label>
+          <label className="block mb-2 text-lg font-medium">Quantidade de times</label>
           <input
             type="text"
             inputMode="numeric"
             value={teamCount}
             onChange={(e) => { setTeamCount(e.target.value.replace(/\D/g, '')); setResult(null); }}
-            className="border border-gray-400 rounded px-3 py-2 w-24 text-center"
+            className="bg-[#f5b8c4]/30 border border-[#e85d75]/50 text-[#11214a] rounded px-3 py-2 w-24 text-center"
           />
         </div>
       )}
@@ -161,7 +161,7 @@ export default function SorteadorPage() {
         <button
           onClick={handleDraw}
           disabled={!canDraw || drawing}
-          className="mb-10 px-8 py-3 bg-emerald-600 text-white rounded-md font-bold shadow-md ring-2 ring-emerald-300 hover:bg-emerald-700 hover:ring-emerald-400 disabled:bg-gray-300 disabled:text-gray-500 disabled:ring-0 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+          className="mb-10 px-8 py-3 bg-[#11214a] text-[#f4c430] rounded-md font-bold shadow-md ring-2 ring-[#f4c430] hover:bg-[#0b1838] hover:ring-[#e85d75] disabled:bg-gray-300 disabled:text-gray-500 disabled:ring-0 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
         >
           {drawing ? 'Sorteando...' : 'Sortear'}
         </button>
@@ -171,7 +171,7 @@ export default function SorteadorPage() {
       {result && (
         <div className="mb-10">
           <div id="print-area">
-            <h2 className="text-lg font-bold mb-4">Resultado</h2>
+            <h2 className="text-2xl font-bold mb-4">Resultado</h2>
             <div className="flex flex-wrap gap-6">
               {result.map((team) => (
                 <div key={team.name} className="border border-gray-300 rounded p-4 min-w-64">
@@ -193,7 +193,7 @@ export default function SorteadorPage() {
           </div>
           <button
             onClick={() => window.print()}
-            className="no-print mt-6 px-6 py-2 bg-indigo-600 text-white rounded-md font-medium shadow ring-2 ring-indigo-300 hover:bg-indigo-700 hover:ring-indigo-400 transition-colors"
+            className="no-print mt-6 px-6 py-2 bg-[#e85d75] text-white rounded-md font-medium shadow ring-2 ring-[#f4c430] hover:bg-[#c64760] hover:ring-[#11214a] transition-colors"
           >
             Exportar PDF
           </button>
