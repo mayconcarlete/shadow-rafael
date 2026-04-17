@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface Player {
   firstName: string;
@@ -100,8 +101,15 @@ export default function SorteadorPage() {
 
   return (
     <main className="min-h-screen p-10 font-mono flex flex-col items-center text-center">
-      <div className="w-full max-w-5xl flex flex-col items-center">
-      <h1 className="text-4xl font-bold mb-6">Sorteador Airsoft ES</h1>
+      <div className="w-full max-w-[1600px] flex flex-col items-center">
+      <Image
+        src="/airsoft-logo.png"
+        alt="Airsoftes"
+        width={512}
+        height={160}
+        priority
+        className="mb-6 h-auto w-full max-w-md"
+      />
 
       {/* Upload */}
       <div className="mb-4">
@@ -210,21 +218,33 @@ export default function SorteadorPage() {
         <div className="mb-10">
           <div id="print-area">
             <h2 className="text-2xl font-bold mb-4">Resultado</h2>
-            <div className="flex flex-wrap gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-16 w-full">
               {result.map((team) => (
-                <div key={team.name} className="border border-gray-300 rounded p-4 min-w-64">
-                  <div className="flex items-baseline justify-between mb-3">
-                    <span className="font-bold">{team.name}</span>
+                <div key={team.name} className="min-w-0 w-full">
+                  <div className="flex items-baseline justify-between mb-2 text-[#11214a]">
+                    <span className="font-bold text-lg">{team.name}</span>
                     <span className="text-xs text-gray-500">média {team.avgYears} anos</span>
                   </div>
-                  <ul className="text-sm space-y-1">
-                    {team.players.map((p, i) => (
-                      <li key={i} className="flex justify-between gap-4">
-                        <span>{p.firstName} {p.lastName}</span>
-                        <span className="text-gray-400 text-xs">{p.team} · {p.modality}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <table className="border-collapse text-sm w-full mx-auto text-[#11214a] shadow-sm">
+                    <thead>
+                      <tr className="bg-gray-300">
+                        <th className="border border-gray-400 px-2 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                        <th className="border border-gray-400 px-2 py-2 text-left font-semibold whitespace-nowrap">Nome</th>
+                        <th className="border border-gray-400 px-2 py-2 text-left font-semibold whitespace-nowrap">Time</th>
+                        <th className="border border-gray-400 px-2 py-2 text-left font-semibold whitespace-nowrap">Modalidade</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {team.players.map((p, i) => (
+                        <tr key={i} className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-gray-200 transition-colors`}>
+                          <td className="border border-gray-300 px-2 py-1 whitespace-nowrap">{i + 1}</td>
+                          <td className="border border-gray-300 px-2 py-1 whitespace-nowrap">{p.firstName} {p.lastName}</td>
+                          <td className="border border-gray-300 px-2 py-1 whitespace-nowrap">{p.team}</td>
+                          <td className="border border-gray-300 px-2 py-1 whitespace-nowrap">{p.modality}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               ))}
             </div>
@@ -234,22 +254,22 @@ export default function SorteadorPage() {
 
       {/* Players table */}
       {players && (
-        <div>
+        <div className="w-full">
           <p className="mb-3 text-sm text-gray-500">{players.length} jogadores carregados</p>
-          <div className="overflow-x-auto">
-            <table className="border-collapse text-sm w-full">
+          <div className="overflow-x-auto flex justify-center">
+            <table className="border-collapse text-sm w-auto mx-auto text-[#11214a] shadow-sm">
               <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 px-3 py-2 text-left">#</th>
-                  <th className="border border-gray-300 px-3 py-2 text-left">Nome</th>
-                  <th className="border border-gray-300 px-3 py-2 text-left">Time</th>
-                  <th className="border border-gray-300 px-3 py-2 text-left">Modalidade</th>
-                  <th className="border border-gray-300 px-3 py-2 text-left">Anos</th>
+                <tr className="bg-gray-300">
+                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">#</th>
+                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Nome</th>
+                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Time</th>
+                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Modalidade</th>
+                  <th className="border border-gray-400 px-3 py-2 text-left font-semibold">Anos</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map((p, i) => (
-                  <tr key={i} className="hover:bg-gray-50">
+                  <tr key={i} className={`${i % 2 === 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-gray-200 transition-colors`}>
                     <td className="border border-gray-300 px-3 py-1">{i + 1}</td>
                     <td className="border border-gray-300 px-3 py-1">{p.firstName} {p.lastName}</td>
                     <td className="border border-gray-300 px-3 py-1">{p.team}</td>
