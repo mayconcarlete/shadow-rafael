@@ -29,6 +29,24 @@ export default function SorteadorPage() {
   const [drawing, setDrawing] = useState(false);
   const [groupOrder, setGroupOrder] = useState<GroupOrder | null>(null);
 
+  function handleDownloadExample() {
+    const headers = ['Guest first name', 'Guest last name', 'Equipe Atual', 'Modalidade', 'Joga a quantos anos?'];
+    const rows = [
+      ['Rafael', 'Rios', 'Shadow', 'Sniper (550fps/2.81J)', '11'],
+      ['Monclar', 'Carvalho', 'Equipe GTM', 'Assault (400fps/1.52J)', '3'],
+      ['Lucas', 'Pereira', 'Falcons', 'Support (400fps/1.52J)', '5'],
+      ['Bruno', 'Santos', 'Sem time', 'DMR (450fps/1.92J)', '2'],
+    ];
+    const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'exemplo-jogadores.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -81,19 +99,29 @@ export default function SorteadorPage() {
   const canDraw = !!players && !!drawMethod && !!teamCount && (drawMethod !== 'times' || !!groupOrder);
 
   return (
-    <main className="min-h-screen p-10 font-mono">
+    <main className="min-h-screen p-10 font-mono flex flex-col items-center text-center">
+      <div className="w-full max-w-5xl flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-6">Sorteador Airsoft ES</h1>
 
       {/* Upload */}
-      <label className="block mb-4">
-        <span className="block mb-2 text-lg font-medium">Upload CSV</span>
+      <div className="mb-4">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-lg font-medium">Upload CSV</span>
+          <button
+            type="button"
+            onClick={handleDownloadExample}
+            className="px-3 py-1 text-sm bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] transition-colors"
+          >
+            Exemplo
+          </button>
+        </div>
         <input
           type="file"
           accept=".csv"
           onChange={handleUpload}
-          className="block bg-[#f5b8c4]/30 border border-[#e85d75]/50 text-[#11214a] rounded px-3 py-2 cursor-pointer"
+          className="block bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded px-3 py-2 cursor-pointer hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] transition-colors"
         />
-      </label>
+      </div>
 
       {loading && <p className="text-gray-500">Parsing...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
@@ -151,20 +179,30 @@ export default function SorteadorPage() {
             inputMode="numeric"
             value={teamCount}
             onChange={(e) => { setTeamCount(e.target.value.replace(/\D/g, '')); setResult(null); }}
-            className="bg-[#f5b8c4]/30 border border-[#e85d75]/50 text-[#11214a] rounded px-3 py-2 w-24 text-center"
+            className="bg-white text-[#11214a] border-2 border-[#e85d75]/50 rounded px-3 py-2 w-24 text-center hover:bg-[#f5b8c4]/30 hover:border-[#e85d75] focus:bg-[#f5b8c4]/30 focus:border-[#e85d75] focus:outline-none transition-colors"
           />
         </div>
       )}
 
-      {/* Sortear button */}
+      {/* Action buttons */}
       {players && (
-        <button
-          onClick={handleDraw}
-          disabled={!canDraw || drawing}
-          className="mb-10 px-8 py-3 bg-[#11214a] text-[#f4c430] rounded-md font-bold shadow-md ring-2 ring-[#f4c430] hover:bg-[#0b1838] hover:ring-[#e85d75] disabled:bg-gray-300 disabled:text-gray-500 disabled:ring-0 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
-        >
-          {drawing ? 'Sorteando...' : 'Sortear'}
-        </button>
+        <div className="mb-10 flex gap-3 items-center">
+          <button
+            onClick={handleDraw}
+            disabled={!canDraw || drawing}
+            className="px-8 py-3 bg-[#e85d75] text-white border-2 border-[#c64760] rounded-md font-bold shadow-md ring-2 ring-[#11214a]/30 hover:bg-[#c64760] disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-400 disabled:ring-0 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+          >
+            {drawing ? 'Sorteando...' : 'Sortear'}
+          </button>
+          {result && (
+            <button
+              onClick={() => window.print()}
+              className="no-print px-6 py-3 bg-[#e85d75] text-white border-2 border-[#c64760] rounded-md font-medium shadow ring-2 ring-[#f4c430] hover:bg-[#c64760] hover:ring-[#11214a] transition-colors"
+            >
+              Exportar PDF
+            </button>
+          )}
+        </div>
       )}
 
       {/* Result */}
@@ -191,12 +229,6 @@ export default function SorteadorPage() {
               ))}
             </div>
           </div>
-          <button
-            onClick={() => window.print()}
-            className="no-print mt-6 px-6 py-2 bg-[#e85d75] text-white rounded-md font-medium shadow ring-2 ring-[#f4c430] hover:bg-[#c64760] hover:ring-[#11214a] transition-colors"
-          >
-            Exportar PDF
-          </button>
         </div>
       )}
 
@@ -230,6 +262,7 @@ export default function SorteadorPage() {
           </div>
         </div>
       )}
+      </div>
     </main>
   );
 }
